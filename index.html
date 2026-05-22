@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bodigari Ramakrishna Reddy — Salesforce Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #0c0f0e;
+    --bg2: #141918;
+    --bg3: #1c2220;
+    --accent: #3ecfa0;
+    --accent2: #2eb88c;
+    --text: #e8ede9;
+    --muted: #8a9e96;
+    --border: rgba(62,207,160,0.15);
+    --white: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: rgba(12,15,14,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    color: var(--accent);
+    letter-spacing: -0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.9rem;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-cta {
+    background: var(--accent); color: #0c0f0e;
+    padding: 0.5rem 1.25rem; border-radius: 2rem;
+    text-decoration: none; font-size: 0.85rem; font-weight: 600;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent2); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 7rem 5% 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -20%; right: -10%;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(62,207,160,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    display: grid; grid-template-columns: 1fr 420px; gap: 4rem;
+    align-items: center; max-width: 1100px; margin: 0 auto; width: 100%;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(62,207,160,0.1); border: 1px solid var(--border);
+    color: var(--accent); font-size: 0.8rem; font-weight: 500;
+    padding: 0.35rem 0.9rem; border-radius: 2rem; margin-bottom: 1.5rem;
+  }
+  .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s ease infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.25rem;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    color: var(--muted); font-size: 1.05rem; font-weight: 300;
+    max-width: 480px; margin-bottom: 2rem;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #0c0f0e;
+    padding: 0.75rem 1.75rem; border-radius: 2rem;
+    text-decoration: none; font-weight: 600; font-size: 0.95rem;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+  .btn-outline {
+    border: 1px solid var(--border); color: var(--text);
+    padding: 0.75rem 1.75rem; border-radius: 2rem;
+    text-decoration: none; font-size: 0.95rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+  .stats-row {
+    display: flex; gap: 2.5rem; margin-top: 3rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem; color: var(--accent); line-height: 1;
+  }
+  .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.25rem; }
+
+  /* AVATAR CARD */
+  .hero-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 2rem;
+    position: relative;
+  }
+  .avatar-circle {
+    width: 100px; height: 100px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent) 0%, #0c6a4a 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem; color: #fff; margin: 0 auto 1.5rem;
+    box-shadow: 0 0 40px rgba(62,207,160,0.25);
+  }
+  .hero-card h3 {
+    text-align: center; font-size: 1.1rem; font-weight: 600; margin-bottom: 0.25rem;
+  }
+  .hero-card p { text-align: center; color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .cert-badges {
+    display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;
+  }
+  .cert-badge {
+    background: rgba(62,207,160,0.1); border: 1px solid var(--border);
+    color: var(--accent); font-size: 0.7rem; font-weight: 500;
+    padding: 0.3rem 0.7rem; border-radius: 1rem;
+  }
+  .availability {
+    display: flex; align-items: center; gap: 0.5rem; justify-content: center;
+    margin-top: 1.5rem; font-size: 0.8rem; color: var(--muted);
+  }
+  .dot-green { width: 8px; height: 8px; border-radius: 50%; background: #3ecfa0; }
+
+  /* SECTIONS */
+  section { padding: 6rem 5%; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-tag {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    line-height: 1.15; letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  h2 em { font-style: italic; color: var(--accent); }
+  .section-desc { color: var(--muted); max-width: 540px; font-size: 1rem; margin-bottom: 3rem; }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem;
+  }
+  .skill-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.5rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .skill-icon {
+    width: 44px; height: 44px; border-radius: 10px;
+    background: rgba(62,207,160,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem; margin-bottom: 1rem;
+  }
+  .skill-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .skill-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+  .tag {
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--muted); font-size: 0.72rem; padding: 0.2rem 0.55rem; border-radius: 0.5rem;
+  }
+
+  /* EXPERIENCE */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 1px; background: var(--border);
+  }
+  .timeline-item { position: relative; margin-bottom: 3rem; }
+  .timeline-item::before {
+    content: ''; position: absolute; left: -2.4rem; top: 0.4rem;
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 12px rgba(62,207,160,0.5);
+  }
+  .timeline-meta {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; flex-wrap: wrap;
+  }
+  .timeline-date {
+    font-size: 0.78rem; color: var(--accent); font-weight: 600;
+    background: rgba(62,207,160,0.1); padding: 0.2rem 0.65rem; border-radius: 1rem;
+  }
+  .timeline-company { font-size: 0.82rem; color: var(--muted); }
+  .timeline-item h3 { font-size: 1.15rem; font-weight: 600; margin-bottom: 0.75rem; }
+  .timeline-item ul { list-style: none; }
+  .timeline-item li {
+    color: var(--muted); font-size: 0.88rem; padding: 0.35rem 0;
+    padding-left: 1.1rem; position: relative;
+  }
+  .timeline-item li::before {
+    content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem;
+  }
+  .metric-highlight {
+    display: inline-block; color: var(--accent); font-weight: 600;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 20px; padding: 2rem; position: relative; overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .project-card::before {
+    content: ''; position: absolute; top: -50%; right: -30%;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(62,207,160,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .project-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.5rem; color: rgba(62,207,160,0.12);
+    line-height: 1; margin-bottom: 0.5rem;
+  }
+  .project-card h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.6rem; }
+  .project-card p { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.25rem; }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+  /* ACHIEVEMENTS */
+  .achievements-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;
+  }
+  .achievement-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 16px; padding: 1.75rem;
+    text-align: center;
+  }
+  .achievement-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem; color: var(--accent); line-height: 1; margin-bottom: 0.5rem;
+  }
+  .achievement-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.5; }
+
+  /* CERTS */
+  .certs-list {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;
+  }
+  .cert-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem 1.5rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .cert-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: rgba(62,207,160,0.12); display: flex;
+    align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+  }
+  .cert-card span { font-size: 0.88rem; font-weight: 500; color: var(--text); }
+
+  /* CONTACT */
+  .contact-section { background: var(--bg2); border-radius: 24px; padding: 3.5rem; text-align: center; }
+  .contact-section h2 { margin-bottom: 1rem; }
+  .contact-section p { color: var(--muted); margin-bottom: 2.5rem; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .contact-links {
+    display: flex; gap: 1.25rem; justify-content: center; flex-wrap: wrap;
+  }
+  .contact-link {
+    display: flex; align-items: center; gap: 0.6rem;
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--text); padding: 0.75rem 1.4rem; border-radius: 2rem;
+    text-decoration: none; font-size: 0.88rem;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+  .contact-link svg { width: 16px; height: 16px; }
+
+  /* FOOTER */
+  footer {
+    text-align: center; padding: 2.5rem 5%;
+    color: var(--muted); font-size: 0.82rem;
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+
+  /* DIVIDER */
+  .section-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  @media (max-width: 768px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .hero-card { max-width: 360px; margin: 0 auto; }
+    .stats-row { gap: 1.5rem; }
+    nav .nav-links { display: none; }
+    .contact-section { padding: 2.5rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">RK.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">
+        <span></span> Available for Immediate Joining
+      </div>
+      <h1>Salesforce <em>Developer</em><br>& Admin</h1>
+      <p class="hero-sub">4+ years building enterprise solutions on Sales Cloud & Service Cloud — Apex, LWC, REST APIs, and intelligent automation.</p>
+      <div class="hero-actions">
+        <a href="mailto:ramakrishnabodiagri@gmail.com" class="btn-primary">Get in Touch</a>
+        <a href="https://www.linkedin.com/in/ramakrishnasalesforceadmin-developer-ai" target="_blank" class="btn-outline">LinkedIn Profile</a>
+      </div>
+      <div class="stats-row">
+        <div>
+          <div class="stat-num">4+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div>
+          <div class="stat-num">5</div>
+          <div class="stat-label">Certifications</div>
+        </div>
+        <div>
+          <div class="stat-num">2</div>
+          <div class="stat-label">Global Clients</div>
+        </div>
+        <div>
+          <div class="stat-num">89%</div>
+          <div class="stat-label">SLA Improvement</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="hero-card">
+        <div class="avatar-circle">RK</div>
+        <h3>Bodigari Ramakrishna Reddy</h3>
+        <p>Salesforce Developer · Hyderabad, India</p>
+        <div class="cert-badges">
+          <span class="cert-badge">☁ Administrator</span>
+          <span class="cert-badge">⚡ Platform Developer I</span>
+          <span class="cert-badge">🤖 Agentforce</span>
+          <span class="cert-badge">✨ AI Associate</span>
+          <span class="cert-badge">🏗 App Builder</span>
+        </div>
+        <div class="availability">
+          <div class="dot-green"></div>
+          <span>Immediate Joiner · Open to Opportunities</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <p class="section-tag">What I Bring</p>
+    <h2>Core <em>Skills</em></h2>
+    <p class="section-desc">End-to-end Salesforce expertise from security modelling to scalable automation and API integrations.</p>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-icon">⚙️</div>
+        <h4>Salesforce Development</h4>
+        <p>Building robust, maintainable code following Trigger Handler Pattern and SOLID principles.</p>
+        <div class="skill-tags">
+          <span class="tag">Apex Triggers</span>
+          <span class="tag">Batch Apex</span>
+          <span class="tag">Queueable</span>
+          <span class="tag">SOQL / SOSL</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🖥️</div>
+        <h4>Lightning Web Components</h4>
+        <p>Custom UI enhancements and reusable components that improve user experience at scale.</p>
+        <div class="skill-tags">
+          <span class="tag">LWC</span>
+          <span class="tag">Aura</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">CSS / HTML</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔗</div>
+        <h4>API Integrations</h4>
+        <p>Connecting Salesforce to external systems with REST and SOAP APIs and async processing.</p>
+        <div class="skill-tags">
+          <span class="tag">REST API</span>
+          <span class="tag">SOAP API</span>
+          <span class="tag">Named Credentials</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🤖</div>
+        <h4>Flow Automation</h4>
+        <p>Record-Triggered, Screen, and Scheduled Flows that eliminate manual work and boost efficiency.</p>
+        <div class="skill-tags">
+          <span class="tag">Record-Triggered</span>
+          <span class="tag">Screen Flow</span>
+          <span class="tag">Scheduled</span>
+          <span class="tag">Approval Processes</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🔒</div>
+        <h4>Security & Administration</h4>
+        <p>Full security model management — profiles, permission sets, OWD, sharing rules, FLS.</p>
+        <div class="skill-tags">
+          <span class="tag">Profiles</span>
+          <span class="tag">Permission Sets</span>
+          <span class="tag">OWD</span>
+          <span class="tag">FLS</span>
+          <span class="tag">Role Hierarchy</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-icon">🛠️</div>
+        <h4>DevOps & Tooling</h4>
+        <p>Modern SFDX deployments with Git-based source control, metadata management and sandboxes.</p>
+        <div class="skill-tags">
+          <span class="tag">SFDX</span>
+          <span class="tag">VS Code</span>
+          <span class="tag">Git</span>
+          <span class="tag">Data Loader</span>
+          <span class="tag">Workbench</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ACHIEVEMENTS -->
+<section style="padding: 4rem 5%;">
+  <div class="section-inner">
+    <div class="achievements-grid">
+      <div class="achievement-card">
+        <div class="achievement-num">89%</div>
+        <p>SLA adherence achieved via queue-based case routing on Service Cloud (from 74%)</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-num">40%</div>
+        <p>Reduction in manual effort through Record-Triggered Flows for automated work orders</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-num">15%</div>
+        <p>Improvement in SOQL query load times through Apex and query optimisation</p>
+      </div>
+      <div class="achievement-card">
+        <div class="achievement-num">3.8yr</div>
+        <p>At TCS delivering across global enterprise clients including Telstra and BP Energy</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <p class="section-tag">Where I've Worked</p>
+    <h2>Work <em>Experience</em></h2>
+    <p class="section-desc">Delivering enterprise Salesforce solutions at Tata Consultancy Services for global clients.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-meta">
+          <span class="timeline-date">Feb 2022 – Sep 2025</span>
+          <span class="timeline-company">Tata Consultancy Services · Hyderabad</span>
+        </div>
+        <h3>System Engineer — Salesforce Admin & Developer</h3>
+        <ul>
+          <li>Built and customised objects, fields, page layouts, record types, and validation rules</li>
+          <li>Automated business processes using Flows and Apex Triggers, reducing manual effort by <span class="metric-highlight">40%</span></li>
+          <li>Developed Apex classes, Batch Apex, and Queueable jobs for scalable data processing</li>
+          <li>Improved SLA adherence from 74% to <span class="metric-highlight">89%</span> via queue-based Service Cloud case routing</li>
+          <li>Integrated external systems using REST and SOAP APIs with asynchronous processing</li>
+          <li>Managed full security model: profiles, permission sets, role hierarchy, OWD, sharing rules, FLS</li>
+          <li>Worked on Sales Cloud and Service Cloud implementations for global enterprise clients</li>
+          <li>Provided user support, troubleshooting, and requirement analysis for business teams</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <p class="section-tag">What I've Built</p>
+    <h2>Featured <em>Projects</em></h2>
+    <p class="section-desc">Two major enterprise implementations delivered at TCS for global Fortune-500 clients.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <h3>Telstra Telecom — Service Cloud</h3>
+        <p>End-to-end Salesforce administration and development for Australia's largest telecom, including automation, security, and LWC-based UI enhancements. Implemented Flow automation to streamline case management and improved SLA adherence from 74% to 89%.</p>
+        <div class="project-stack">
+          <span class="tag">Service Cloud</span>
+          <span class="tag">Apex Triggers</span>
+          <span class="tag">LWC</span>
+          <span class="tag">Flows</span>
+          <span class="tag">REST API</span>
+          <span class="tag">Reports & Dashboards</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <h3>BP Energy — Operations Management</h3>
+        <p>Built an Operations Management System on Salesforce for BP Energy, automating work order creation and optimising data processing performance. Reduced manual effort by 40% and improved system performance by 15% through Apex and query optimisation.</p>
+        <div class="project-stack">
+          <span class="tag">Sales Cloud</span>
+          <span class="tag">Batch Apex</span>
+          <span class="tag">Record-Triggered Flow</span>
+          <span class="tag">Scheduled Flow</span>
+          <span class="tag">Data Loader</span>
+          <span class="tag">Validation Rules</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- CERTIFICATIONS -->
+<section>
+  <div class="section-inner">
+    <p class="section-tag">Credentials</p>
+    <h2>Salesforce <em>Certifications</em></h2>
+    <p class="section-desc">Five active Salesforce certifications spanning administration, development, and AI.</p>
+    <div class="certs-list">
+      <div class="cert-card">
+        <div class="cert-icon">☁</div>
+        <span>Salesforce Certified Administrator (SCA)</span>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">⚡</div>
+        <span>Salesforce Certified Platform Developer I (PDI)</span>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🤖</div>
+        <span>Salesforce Agentforce Specialist</span>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">✨</div>
+        <span>Salesforce Certified AI Associate</span>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon">🏗</div>
+        <span>Salesforce Certified Platform App Builder</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-section">
+      <p class="section-tag">Let's Connect</p>
+      <h2>Open to <em>New Roles</em></h2>
+      <p>Looking for a Salesforce Admin/Developer role where I can tackle complex problems. Available for immediate joining across Hyderabad and beyond.</p>
+      <div class="contact-links">
+        <a href="mailto:ramakrishnabodiagri@gmail.com" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          ramakrishnabodiagri@gmail.com
+        </a>
+        <a href="tel:+916302290389" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.92 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.88 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +91 63022 90389
+        </a>
+        <a href="https://www.linkedin.com/in/ramakrishnasalesforceadmin-developer-ai" target="_blank" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          LinkedIn
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Bodigari Ramakrishna Reddy · Built with care · <a href="mailto:ramakrishnabodiagri@gmail.com">ramakrishnabodiagri@gmail.com</a></p>
+</footer>
+
+</body>
+</html>
